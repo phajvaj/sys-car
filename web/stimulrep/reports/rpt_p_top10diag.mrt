@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" application="StiReport" type="Flex">
+  <Dictionary isKey="true" Ref="1" type="Dictionary">
+    <Databases isList="true" count="1">
+      <Connection1 isKey="true" Ref="2" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase">
+        <Alias>Connection1</Alias>
+        <ConnectionString>port=3306;</ConnectionString>
+        <Name>Connection1</Name>
+      </Connection1>
+    </Databases>
+    <DataSources isList="true" count="4">
+      <DataSource1 isKey="true" Ref="3" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+        <Alias>DataSource1</Alias>
+        <Columns isList="true" count="3">
+          <value>GROUPDESCRIPTION,System.String</value>
+          <value>amount1,System.Decimal</value>
+          <value>GROUPID,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1"/>
+        <Name>DataSource1</Name>
+        <NameInSource>Connection1</NameInSource>
+        <Parameters isList="true" count="0"/>
+        <SqlCommand>SELECT mas_diag.MAPDISEASE as GROUPID,sum(A1.RPT_SUM) as amount1,mas_diag.DISEASENAMETHAI as GROUPDESCRIPTION from mas_diag LEFT JOIN rpt_diag_top_10 A1 ON A1.DIAGCODE=mas_diag.MAPDISEASE 
+ WHERE mas_diag.MAPDISEASE IS NOT NULL and mas_diag.CODE504&lt;&gt;'99' 
+and (A1.YEAR_SERV between '{pYear}' and '{pYear}') 
+and (A1.MONTH_SERV between '{pMonth}' and '{pMonthE}') 
+and A1.CLIENT_ID like '{pClient}' 
+and A1.PCUCODE like '{pPcu}' 
+and A1.VILLAGE_ID like '{pVillage}' 
+ GROUP BY mas_diag.MAPDISEASE ORDER BY amount1 desc LIMIT 10</SqlCommand>
+      </DataSource1>
+      <dPcu isKey="true" Ref="4" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+        <Alias>dPcu</Alias>
+        <Columns isList="true" count="1">
+          <value>PCU_NAME,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1"/>
+        <Name>dPcu</Name>
+        <NameInSource>Connection1</NameInSource>
+        <Parameters isList="true" count="0"/>
+        <SqlCommand>SELECT (case when '{pPcu}'='%' then 'ทุกสถานบริการ' else (select client_name from sys_config_client a where client_code like '{pPcu}' LIMIT 0,1 ) end) as PCU_NAME</SqlCommand>
+      </dPcu>
+      <dClient isKey="true" Ref="5" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+        <Alias>dClient</Alias>
+        <Columns isList="true" count="1">
+          <value>CLIENT_NAME,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1"/>
+        <Name>dClient</Name>
+        <NameInSource>Connection1</NameInSource>
+        <Parameters isList="true" count="0"/>
+        <SqlCommand>SELECT (case when '{pClient}'='%' then 'ทุกอำเภอ' else (select client_name from sys_webservice_url a where client_id like '{pClient}' LIMIT 0,1 ) end) as CLIENT_NAME</SqlCommand>
+      </dClient>
+      <dVillage isKey="true" Ref="6" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+        <Alias>dVillage</Alias>
+        <Columns isList="true" count="1">
+          <value>VILLAGE_NAME,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1"/>
+        <Name>dVillage</Name>
+        <NameInSource>Connection1</NameInSource>
+        <Parameters isList="true" count="0"/>
+        <SqlCommand>SELECT (case when '{pVillage}'='%' then 'ทุกหมู่บ้าน' else (select VILLAGE_NAME from mas_village a where PCUCODE like '{pPcu}' and VILLAGE_ID like '{pVillage}' LIMIT 0,1 ) end) as VILLAGE_NAME</SqlCommand>
+      </dVillage>
+    </DataSources>
+    <Relations isList="true" count="0"/>
+    <Report isRef="0"/>
+    <Variables isList="true" count="7">
+      <value>,pVillage,หมู่บ้าน,System.String,_x0025_,False,False</value>
+      <value>,pYear,พ_x002E_ศ_x002E_,System.String,_x0032_555,False,False</value>
+      <value>,pMonth,เดือน,System.String,_x0031_,False,False</value>
+      <value>,pPcu,สถานบริการ,System.String,_x0025_,False,False</value>
+      <value>,pClient,อำเภอ,System.String,_x0025_,False,False</value>
+      <value>,pMonthE,เดือน,System.String,_x0031_2,False,False</value>
+      <value>,pYearE,พ_x002E_ศ_x002E_,System.String,_x0032_555,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0"/>
+  <MetaTags isList="true" count="0"/>
+  <Pages isList="true" count="1">
+    <Page1 isKey="true" Ref="7" type="Page">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="7">
+        <PageHeaderBand1 isKey="true" Ref="8" type="PageHeaderBand">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,5</ClientRectangle>
+          <Components isList="true" count="14">
+            <Text7 isKey="true" Ref="9" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.8,1.2,13.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,16</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>รายงานโรคที่พบบ่อย 10 อันดับแรก</Text>
+              <TextBrush>Black</TextBrush>
+            </Text7>
+            <Text8 isKey="true" Ref="10" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,3.4,16.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,14</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>ตั้งแต่เดือน................................................ถึงเดือน...................................................</Text>
+              <TextBrush>Black</TextBrush>
+            </Text8>
+            <Text10 isKey="true" Ref="11" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,2.6,16.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,14</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>ชื่อหน่วยงาน..........................................................อำเภอ.....................................</Text>
+              <TextBrush>Black</TextBrush>
+            </Text10>
+            <Text2 isKey="true" Ref="12" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,4.4,2.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,10,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>รหัสโรค</Text>
+              <TextBrush>Black</TextBrush>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text4 isKey="true" Ref="13" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.2,4.4,2.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>จำนวน</Text>
+              <TextBrush>Black</TextBrush>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text6 isKey="true" Ref="14" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.4,4.4,5.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,10,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>ชื่อโรค</Text>
+              <TextBrush>Black</TextBrush>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text11 isKey="true" Ref="15" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.2,3.4,6.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,11</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>เดือน {Switch(pMonth=="1","ตุลาคม",pMonth=="2","พศจิกายน",pMonth=="3","ธันวาคม",pMonth=="4","มกราคม",pMonth=="5","กุมภาพันธ์",pMonth=="6","มีนาคม",pMonth=="7","เมษายน",pMonth=="8","พฤษภาคม",pMonth=="9","มิถุนายน",pMonth=="10","กรกฎาคม",pMonth=="11","สิงหาคม",pMonth=="12","กันยายน")} ปี {pYear}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text11>
+            <Text9 isKey="true" Ref="16" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.2,3.4,4.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,11</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>เดือน {Switch(pMonthE=="1","ตุลาคม",pMonthE=="2","พศจิกายน",pMonthE=="3","ธันวาคม",pMonthE=="4","มกราคม",pMonthE=="5","กุมภาพันธ์",pMonthE=="6","มีนาคม",pMonthE=="7","เมษายน",pMonthE=="8","พฤษภาคม",pMonthE=="9","มิถุนายน",pMonthE=="10","กรกฎาคม",pMonthE=="11","สิงหาคม",pMonthE=="12","กันยายน")} ปี {pYearE}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text9>
+            <Text12 isKey="true" Ref="17" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,2.6,8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,11</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>{IIF(dClient.CLIENT_NAME=="ทุกอำเภอ","จังหวัดยะลา",IIF(pVillage=="%",dPcu.PCU_NAME,dPcu.PCU_NAME+"   "+dVillage.VILLAGE_NAME))}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text12>
+            <Text13 isKey="true" Ref="18" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.4,2.6,3.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <Text>{dClient.CLIENT_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text13>
+            <StartPointPrimitive1 isKey="true" Ref="19" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+              <ClientRectangle>1.2,4.4,0,0</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Name>StartPointPrimitive1</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <ReferenceToGuid>283cbfe9291e15eabea5fb865e491cbe</ReferenceToGuid>
+            </StartPointPrimitive1>
+            <HorizontalLinePrimitive1 isKey="true" Ref="20" type="HorizontalLinePrimitive">
+              <ClientRectangle>1.2,5,16.8,0.0254</ClientRectangle>
+              <Color>Black</Color>
+              <Conditions isList="true" count="0"/>
+              <EndCap isKey="true" Ref="21" type="Cap">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive1</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <StartCap isKey="true" Ref="22" type="Cap">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive1>
+            <StartPointPrimitive2 isKey="true" Ref="23" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+              <ClientRectangle>4.2,4.4,0,0</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Name>StartPointPrimitive2</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <ReferenceToGuid>669ec496e7aad6c32389fbb4a0786699</ReferenceToGuid>
+            </StartPointPrimitive2>
+            <StartPointPrimitive3 isKey="true" Ref="24" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+              <ClientRectangle>15,4.4,0,0</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Name>StartPointPrimitive3</Name>
+              <Page isRef="7"/>
+              <Parent isRef="8"/>
+              <ReferenceToGuid>541d1dd2733ccbd7db56fbb4dc701888</ReferenceToGuid>
+            </StartPointPrimitive3>
+          </Components>
+          <Conditions isList="true" count="0"/>
+          <Name>PageHeaderBand1</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+        </PageHeaderBand1>
+        <DataBand1 isKey="true" Ref="25" type="DataBand">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,6.2,19,0.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text1 isKey="true" Ref="26" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0,2.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="7"/>
+              <Parent isRef="25"/>
+              <Text>{DataSource1.GROUPID}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text1>
+            <Text3 isKey="true" Ref="27" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.4,0,10.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Tahoma,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="7"/>
+              <Parent isRef="25"/>
+              <Text>{DataSource1.GROUPDESCRIPTION}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text3>
+            <Text5 isKey="true" Ref="28" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.2,0,2.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Arial,10</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="7"/>
+              <Parent isRef="25"/>
+              <Text>{DataSource1.amount1}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat isKey="true" Ref="29" type="NumberFormat">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+            </Text5>
+            <HorizontalLinePrimitive2 isKey="true" Ref="30" type="HorizontalLinePrimitive">
+              <ClientRectangle>1.2,0.6,16.8,0.0254</ClientRectangle>
+              <Color>Black</Color>
+              <Conditions isList="true" count="0"/>
+              <EndCap isKey="true" Ref="31" type="Cap">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive2</Name>
+              <Page isRef="7"/>
+              <Parent isRef="25"/>
+              <StartCap isKey="true" Ref="32" type="Cap">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive2>
+          </Components>
+          <Conditions isList="true" count="0"/>
+          <DataSourceName>DataSource1</DataSourceName>
+          <Filters isList="true" count="0"/>
+          <Name>DataBand1</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+          <Sort isList="true" count="0"/>
+        </DataBand1>
+        <ReportSummaryBand1 isKey="true" Ref="33" type="ReportSummaryBand">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,7.6,19,0.8</ClientRectangle>
+          <Components isList="true" count="3">
+            <EndPointPrimitive1 isKey="true" Ref="34" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+              <ClientRectangle>18,0,0,0</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Name>EndPointPrimitive1</Name>
+              <Page isRef="7"/>
+              <Parent isRef="33"/>
+              <ReferenceToGuid>283cbfe9291e15eabea5fb865e491cbe</ReferenceToGuid>
+            </EndPointPrimitive1>
+            <EndPointPrimitive2 isKey="true" Ref="35" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+              <ClientRectangle>4.23,0,0,0</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Name>EndPointPrimitive2</Name>
+              <Page isRef="7"/>
+              <Parent isRef="33"/>
+              <ReferenceToGuid>669ec496e7aad6c32389fbb4a0786699</ReferenceToGuid>
+            </EndPointPrimitive2>
+            <EndPointPrimitive3 isKey="true" Ref="36" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+              <ClientRectangle>15.03,0,0,0</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Name>EndPointPrimitive3</Name>
+              <Page isRef="7"/>
+              <Parent isRef="33"/>
+              <ReferenceToGuid>541d1dd2733ccbd7db56fbb4dc701888</ReferenceToGuid>
+            </EndPointPrimitive3>
+          </Components>
+          <Conditions isList="true" count="0"/>
+          <Name>ReportSummaryBand1</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+        </ReportSummaryBand1>
+        <RectanglePrimitive1 isKey="true" Ref="37" type="RectanglePrimitive">
+          <ClientRectangle>1.2,4.8,16.8,2.8</ClientRectangle>
+          <Color>Black</Color>
+          <Conditions isList="true" count="0"/>
+          <Guid>283cbfe9291e15eabea5fb865e491cbe</Guid>
+          <Name>RectanglePrimitive1</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+        </RectanglePrimitive1>
+        <VerticalLinePrimitive1 isKey="true" Ref="38" type="VerticalLinePrimitive">
+          <ClientRectangle>4.2,4.8,0.0254,2.8</ClientRectangle>
+          <Color>Black</Color>
+          <Conditions isList="true" count="0"/>
+          <EndCap isKey="true" Ref="39" type="Cap">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>669ec496e7aad6c32389fbb4a0786699</Guid>
+          <Name>VerticalLinePrimitive1</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+          <StartCap isKey="true" Ref="40" type="Cap">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive1>
+        <VerticalLinePrimitive2 isKey="true" Ref="41" type="VerticalLinePrimitive">
+          <ClientRectangle>15,4.8,0.0254,2.8</ClientRectangle>
+          <Color>Black</Color>
+          <Conditions isList="true" count="0"/>
+          <EndCap isKey="true" Ref="42" type="Cap">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>541d1dd2733ccbd7db56fbb4dc701888</Guid>
+          <Name>VerticalLinePrimitive2</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+          <StartCap isKey="true" Ref="43" type="Cap">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive2>
+        <HorizontalLinePrimitive3 isKey="true" Ref="44" type="HorizontalLinePrimitive">
+          <ClientRectangle>0.6,26.8,17.8,0.0254</ClientRectangle>
+          <Color>Black</Color>
+          <Conditions isList="true" count="0"/>
+          <EndCap isKey="true" Ref="45" type="Cap">
+            <Color>Black</Color>
+          </EndCap>
+          <Name>HorizontalLinePrimitive3</Name>
+          <Page isRef="7"/>
+          <Parent isRef="7"/>
+          <StartCap isKey="true" Ref="46" type="Cap">
+            <Color>Black</Color>
+          </StartCap>
+        </HorizontalLinePrimitive3>
+      </Components>
+      <Conditions isList="true" count="0"/>
+      <Guid>71dece8634a0fd4cc624e23dfd433b86</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <PaperSize>A4</PaperSize>
+      <Report isRef="0"/>
+      <Watermark isKey="true" Ref="47" type="Stimulsoft.Report.Components.StiWatermark">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings isKey="true" Ref="48" type="Stimulsoft.Report.Print.StiPrinterSettings"/>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>06/01/2012 10:06:46 PM</ReportChanged>
+  <ReportCreated>05/12/2011 10:26:44 AM</ReportCreated>
+  <ReportFile>D:\สสจ.ยะลา\report_php\rpt_p_top10diag.mrt</ReportFile>
+  <ReportGuid>05f711817593e799365aa8959e7ac962</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2012.2.1310</ReportVersion>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0"/>
+</StiSerializer>

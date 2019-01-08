@@ -1,0 +1,18 @@
+body{
+    font-family: "Garuda";
+    font-size: 10pt;
+}
+
+.dot {
+    text-decoration: underline dotted red;
+    -moz-text-decoration: underline dotted red;
+    -webkit-text-decoration: underline dotted red;
+}
+.btm{
+    border-bottom: 1px dotted #000;
+}
+.d1{
+  float: left;
+  width: 180px;
+  text-align: center;
+}
